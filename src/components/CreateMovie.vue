@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { reactive } from "vue";
+import { useRouter } from "vue-router";
+
+//composable.
+const router = useRouter();
 
 const movieForm = reactive({
   title: "",
@@ -8,10 +12,7 @@ const movieForm = reactive({
 });
 
 const onSubmit = () => {
-  console.log("soumission");
-  console.log(movieForm);
-
-  fetch("https://crudcrud.com/api/c2fcb1937b60447092074f34d0bdf5ca/movies", {
+  fetch("https://crudcrud.com/api/ici/movies", {
     method: "POST",
     body: JSON.stringify(movieForm),
     headers: {
@@ -19,7 +20,10 @@ const onSubmit = () => {
     },
   })
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((data) => {
+      console.log(data);
+      router.push("/");
+    });
 };
 </script>
 
