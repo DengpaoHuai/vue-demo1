@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 
 const movieForm = reactive({
   title: "",
@@ -24,12 +24,20 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <h1>Create Movie</h1>
+  <div id="container">
+    <h1>Create Movie</h1>
 
-  <form @submit.prevent="onSubmit">
-    <input type="text" name="title" v-model="movieForm.title" />
-    <input type="text" name="director" v-model="movieForm.director" />
-    <input type="number" name="notation" v-model="movieForm.notation" />
-    <button>submit</button>
-  </form>
+    <form @submit.prevent="onSubmit">
+      <input type="text" name="title" v-model="movieForm.title" />
+      <input type="text" name="director" v-model="movieForm.director" />
+      <input type="number" name="notation" v-model="movieForm.notation" />
+      <button>submit</button>
+    </form>
+  </div>
 </template>
+
+<style scoped>
+#container {
+  height: 500vh;
+}
+</style>
