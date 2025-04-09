@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import PlanetList from "../components/PlanetList.vue";
-import CreateMovie from "../components/CreateMovie.vue";
+import PlanetList from "../pages/PlanetList.vue";
+import CreateMovie from "../pages/CreateMovie.vue";
 
 const routes = [
   { path: "/", component: PlanetList },
