@@ -1,42 +1,32 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
+import type { PlanetResponse } from "../types/planet.type";
 
-type Planet = {
-  name: string;
-  population: string;
-  orbital_period: string;
-  residents: string[];
-  films: string[];
-  created: string;
-  edited: string;
-  url: string;
-  id: number;
-  rotation_period: string;
-  diameter: string;
-  climate: string;
-  gravity: string;
-  terrain: string;
-  surface_water: string;
-};
-
-const planets = ref<Planet[]>([]);
-
+const planets = reactive<PlanetResponse>({
+  count: 0,
+  next: null,
+  previous: null,
+  results: [],
+});
 const loading = ref(false);
 
-//never
-
-onMounted(() => {
+const fetchPlanets =  (url : string) => {
   loading.value = true;
-  fetch("https://swapi.dev/api/planets")
-    .then((response) => {
-      return response.json();
-    })
+  fetch(url)
+    .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      planets.value = data.results;
+      planets.results = data.results;
+      planets.count = data.count;
+      planets.next = data.next;
+      planets.previous = data.previous;
       loading.value = false;
     });
+};
+
+onMounted(() => {
+  fetchPlanets("https://swapi.dev/api/planets");
 });
+
 </script>
 
 <template>
@@ -44,11 +34,15 @@ onMounted(() => {
   <div v-if="loading">
     <p>loading....</p>
   </div>
-  <div v-for="planet in planets">
+  <div v-for="planet in planets.results">
     <p>
       {{ planet.name }}
     </p>
   </div>
-  <button>précédent</button>
-  <button>suivant</button>
+  <button 
+  :disabled="!planets.previous"
+  @click="fetchPlanets(planets.previous!)">précédent</button>
+  <button 
+  :disabled="!planets.next"
+  @click="fetchPlanets(planets.next!)">suivant</button>
 </template>
