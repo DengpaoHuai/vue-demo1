@@ -1,39 +1,7 @@
-<script setup lang="ts">
-import { reactive, ref } from "vue";
-import PlanetList from "./components/PlanetList.vue";
-
-let demoArray = ref([
-  { id: 1, title: "Task 1" },
-  { id: 2, title: "Task 2" },
-  { id: 3, title: "Task 3" },
-]);
-
-const count = ref(0);
-
-const handleClick = () => {
-  count.value++;
-  console.log(count);
-  console.log(count.value);
-};
-
-const person = reactive({
-  name: "John",
-  age: 30,
-});
-
-const incrementAge = () => {
-  person.age++;
-  console.log(person);
-};
-
-const addTask = (task: string) => {
-  let newTask = { id: 4, title: task };
-  demoArray.value.push(newTask);
-};
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <PlanetList></PlanetList>
+  <RouterView />
 </template>
 
 <style scoped>
