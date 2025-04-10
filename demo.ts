@@ -1,15 +1,15 @@
-type Routes = "/home" | "/about" | "/contact";
+let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-const goTo = (url: Routes) => {
-  window.location.href = url;
+const [un, deux, ...nomdevotrevariable] = array;
+
+console.log(un, deux, nomdevotrevariable);
+
+const person = {
+  name: "John",
+  age: 20,
+  city: "New York",
 };
 
-//goTo("https://google.com")
+const { age, city } = person;
 
-goTo("/home");
-goTo("/about");
-goTo("/contact");
-
-let toto = "pojdfpogjdpofgkj";
-
-goTo(toto);
+console.log(age, city);

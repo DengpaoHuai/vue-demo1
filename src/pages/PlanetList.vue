@@ -39,8 +39,8 @@ onUnmounted(() => {
 
 <template>
   <div id="container">
-    <RouterLink to="/list-movies">aller sur la liste des films</RouterLink>
-    <RouterLink to="/create-movie">aller sur la création de film</RouterLink>
+    <RouterLink :to="{ name: 'ListMovies' }">aller sur la liste des films</RouterLink>
+    <RouterLink :to="{ name: 'CreateMovie' }">aller sur la création de film</RouterLink>
     <h1>Planets</h1>
     <div v-if="loading">
       <p>loading....</p>

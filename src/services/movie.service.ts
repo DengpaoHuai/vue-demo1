@@ -32,6 +32,7 @@ const createMoviePromise = (movieForm: Omit<Movie, "_id">) => {
 };*/
 
 export const getMovies = async () => {
+  // await waitFor(2000);
   const response = await fetch(API_URL);
   const results = await response.json();
   return results;
@@ -45,4 +46,10 @@ export const deleteMovie = async (id: string) => {
     method: "DELETE",
   });
   return response;
+};
+
+export const getMovieById = async (id: string) => {
+  const response = await fetch(`${API_URL}/${id}`);
+  const results = await response.json();
+  return results;
 };

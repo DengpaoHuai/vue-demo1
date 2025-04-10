@@ -24,7 +24,7 @@ const onSubmit = () => {
     .addMovie(movieForm)
     .then((data) => {
       console.log(data);
-      router.push("/list-movies");
+      router.push({ name: "ListMovies" });
     })
     .catch((error) => {
       console.error(error);
