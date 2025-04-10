@@ -1,9 +1,22 @@
-import httpClient from "../lib/http-client";
 import type { Movie } from "../types/movie.type";
 
+const waitFor = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+const API_KEY = "5e0a68aefcdc49f0adc0358b1814da07";
+
+const API_URL = `https://crudcrud.com/api/${API_KEY}/movies`;
+
 export const createMovie = async (movieForm: Omit<Movie, "_id">) => {
-  const response = await httpClient.post("/", movieForm);
-  return response.data;
+  const response = await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(movieForm),
+    headers: {
+      "content-type": "application/json",
+    },
+  });
+  const results = await response.json();
+  return results;
 };
 
 /*
