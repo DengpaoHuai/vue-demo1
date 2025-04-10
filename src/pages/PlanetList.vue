@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from "vue";
 import type { PlanetResponse } from "../types/planet.type";
+import { Button } from "primevue";
 
 const planets = reactive<PlanetResponse>({
   count: 0,
@@ -39,8 +40,12 @@ onUnmounted(() => {
 
 <template>
   <div id="container">
-    <RouterLink :to="{ name: 'ListMovies' }">aller sur la liste des films</RouterLink>
-    <RouterLink :to="{ name: 'CreateMovie' }">aller sur la création de film</RouterLink>
+    <RouterLink :to="{ name: 'ListMovies' }"
+      >aller sur la liste des films</RouterLink
+    >
+    <RouterLink :to="{ name: 'CreateMovie' }"
+      >aller sur la création de film</RouterLink
+    >
     <h1>Planets</h1>
     <div v-if="loading">
       <p>loading....</p>
@@ -50,20 +55,24 @@ onUnmounted(() => {
         {{ planet.name }}
       </p>
     </div>
-    <button
+    <Button
       :disabled="!planets.previous"
       @click="fetchPlanets(planets.previous!)"
     >
       précédent
-    </button>
-    <button :disabled="!planets.next" @click="fetchPlanets(planets.next!)">
+    </Button>
+    <Button :disabled="!planets.next" @click="fetchPlanets(planets.next!)">
       suivant
-    </button>
+    </Button>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 #container {
   height: 500vh;
+}
+
+h1 {
+  color: $primary;
 }
 </style>
