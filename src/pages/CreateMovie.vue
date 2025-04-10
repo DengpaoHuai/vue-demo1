@@ -1,30 +1,45 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+import type { Movie } from "../types/movie.type";
+import { createMovie } from "../services/movie.service";
 
-//composable.
+//composable. UNIQUEMENT à la racine d'un composant ou d'un autre composable.
 const router = useRouter();
 
-const movieForm = reactive({
+
+// Omit<Movie, "_id"> : on retire le champ _id du type Movie
+//Type utilitaire typescript : on peut utiliser Omit pour retirer un champ d'un type
+const movieForm = reactive<Omit<Movie, "_id">>({
   title: "",
   director: "",
   notation: 0,
 });
+const isSubmitting = ref(false);
 
 const onSubmit = () => {
-  fetch("https://crudcrud.com/api/ici/movies", {
-    method: "POST",
-    body: JSON.stringify(movieForm),
-    headers: {
-      "content-type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      router.push("/");
-    });
+  isSubmitting.value = true;
+  createMovie(movieForm).then((data) => {
+    console.log(data);
+    router.push("/list-movies");
+  }).catch((error) => {
+    console.error(error);
+  }).finally(() => {
+    isSubmitting.value = false;
+  });
 };
+
+/*
+const onSubmit = async () => {
+  console.log('submit')
+  try {
+    const data = await createMovie(movieForm);
+    console.log(data);
+    router.push("/list-movies");
+  } catch (error) {
+    console.error(error);
+  }
+}*/
 </script>
 
 <template>
@@ -35,7 +50,9 @@ const onSubmit = () => {
       <input type="text" name="title" v-model="movieForm.title" />
       <input type="text" name="director" v-model="movieForm.director" />
       <input type="number" name="notation" v-model="movieForm.notation" />
-      <button>submit</button>
+      <button
+      :disabled="isSubmitting"
+      >submit</button>
     </form>
   </div>
 </template>
