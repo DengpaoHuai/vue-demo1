@@ -20,23 +20,19 @@ const createMoviePromise = (movieForm: Omit<Movie, "_id">) => {
 
 export const getMovies = async () => {
   // await waitFor(2000);
-  const response = await fetch(API_URL);
-  const results = await response.json();
-  return results;
+  const response = await httpClient.get("/");
+  return response.data;
 };
 
 export const deleteMovie = async (id: string) => {
   /*await waitFor(2000);
   throw new Error("error");*/
 
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
-  });
+  const response = await httpClient.delete(`/${id}`);
   return response;
 };
 
 export const getMovieById = async (id: string) => {
-  const response = await fetch(`${API_URL}/${id}`);
-  const results = await response.json();
-  return results;
+  const response = await httpClient.get(`/${id}`);
+  return response.data;
 };
