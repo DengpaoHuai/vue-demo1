@@ -1,5 +1,8 @@
 import type { Movie } from "../types/movie.type";
 
+const waitFor = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 const API_KEY = "e5ab5afcc48949b7908d87c6280dd39d";
 
 const API_URL = `https://crudcrud.com/api/${API_KEY}/movies`;
@@ -32,4 +35,14 @@ export const getMovies = async () => {
   const response = await fetch(API_URL);
   const results = await response.json();
   return results;
+};
+
+export const deleteMovie = async (id: string) => {
+  /*await waitFor(2000);
+  throw new Error("error");*/
+
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+  return response;
 };
