@@ -1,20 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type { Movie } from "../types/movie.type";
 import { RouterLink } from "vue-router";
 import { deleteMovie, getMovies } from "../services/movie.service";
+import { useMovieStore } from "../store/useMovieStore";
 
-const movies = ref<Movie[]>([]);
-
-const getData = () => {
-  getMovies().then((data) => {
-    movies.value = data;
-  });
-};
-
-onMounted(() => {
-  getData();
-});
+const movieStore = useMovieStore();
 
 const deleteItem = async (id: string) => {
   await deleteMovie(id);
@@ -24,7 +14,7 @@ const deleteItem = async (id: string) => {
     return true;
   });*/
 
-  movies.value = movies.value.filter((movie) => movie._id !== id);
+  // movies.value = movies.value.filter((movie) => movie._id !== id);
 };
 </script>
 
@@ -33,7 +23,7 @@ const deleteItem = async (id: string) => {
     <h1>List Movies</h1>
     <RouterLink to="/create-movie">Create Movie</RouterLink>
     <ul>
-      <li v-for="movie in movies" :key="movie._id">
+      <li v-for="movie in movieStore.movies" :key="movie._id">
         {{ movie.title }}
         <button @click="deleteItem(movie._id)">supprimer</button>
       </li>

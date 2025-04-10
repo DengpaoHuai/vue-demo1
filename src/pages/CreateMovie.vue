@@ -2,11 +2,12 @@
 import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Movie } from "../types/movie.type";
-import { createMovie } from "../services/movie.service";
+import { useMovieStore } from "../store/useMovieStore";
 
 //composable. UNIQUEMENT à la racine d'un composant ou d'un autre composable.
 const router = useRouter();
 
+const movieStore = useMovieStore();
 
 // Omit<Movie, "_id"> : on retire le champ _id du type Movie
 //Type utilitaire typescript : on peut utiliser Omit pour retirer un champ d'un type
@@ -19,14 +20,18 @@ const isSubmitting = ref(false);
 
 const onSubmit = () => {
   isSubmitting.value = true;
-  createMovie(movieForm).then((data) => {
-    console.log(data);
-    router.push("/list-movies");
-  }).catch((error) => {
-    console.error(error);
-  }).finally(() => {
-    isSubmitting.value = false;
-  });
+  movieStore
+    .addMovie(movieForm)
+    .then((data) => {
+      console.log(data);
+      router.push("/list-movies");
+    })
+    .catch((error) => {
+      console.error(error);
+    })
+    .finally(() => {
+      isSubmitting.value = false;
+    });
 };
 
 /*
@@ -50,10 +55,13 @@ const onSubmit = async () => {
       <input type="text" name="title" v-model="movieForm.title" />
       <input type="text" name="director" v-model="movieForm.director" />
       <input type="number" name="notation" v-model="movieForm.notation" />
-      <button
-      :disabled="isSubmitting"
-      >submit</button>
+      <button :disabled="isSubmitting">submit</button>
     </form>
+    <ul>
+      <li v-for="movie in movieStore.movies" :key="movie._id">
+        {{ movie.title }}
+      </li>
+    </ul>
   </div>
 </template>
 

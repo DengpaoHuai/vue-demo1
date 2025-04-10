@@ -3,7 +3,7 @@ import type { Movie } from "../types/movie.type";
 const waitFor = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-const API_KEY = "e5ab5afcc48949b7908d87c6280dd39d";
+const API_KEY = "5e0a68aefcdc49f0adc0358b1814da07";
 
 const API_URL = `https://crudcrud.com/api/${API_KEY}/movies`;
 
