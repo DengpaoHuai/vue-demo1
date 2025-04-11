@@ -3,6 +3,7 @@ import PlanetList from "../pages/PlanetList.vue";
 import Login from "../pages/Login.vue";
 import movieRouter from "./movie-router";
 import PlanetListAdvanced from "../pages/PlanetListAdvanced.vue";
+import PlanetListComposable from "../pages/PlanetListComposable.vue";
 const routes = [
   { path: "/", component: PlanetList, meta: { layout: "LogoutLayout" } },
   {
@@ -16,6 +17,12 @@ const routes = [
     path: "/planet-list-advanced",
     name: "PlanetListAdvanced",
     component: PlanetListAdvanced,
+    meta: { layout: "DefaultLayout" },
+  },
+  {
+    path: "/planet-list-composable",
+    name: "PlanetListComposable",
+    component: PlanetListComposable,
     meta: { layout: "DefaultLayout" },
   },
 ];
