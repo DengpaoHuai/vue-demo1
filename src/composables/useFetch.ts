@@ -1,9 +1,9 @@
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, type Ref } from "vue";
 
 export const url = "explication as";
 
 //T c'est quoi ? C'est générique Typescript.
-const useFetch = <T>(url: string) => {
+const useFetch = <T>(url: Ref<string, string>) => {
   const loading = ref(false);
   const data = ref<T | null>(null);
   const error = ref<string | null>(null);
@@ -11,7 +11,9 @@ const useFetch = <T>(url: string) => {
   const getData = async () => {
     loading.value = true;
     try {
-      const response = await fetch(url);
+      console.log(url);
+      console.log(url.value);
+      const response = await fetch(url.value);
       const results = await response.json();
       data.value = results;
     } catch (err: unknown) {
@@ -28,9 +30,20 @@ const useFetch = <T>(url: string) => {
     }
   };
 
+  watch(
+    url,
+    (newvalue, oldvalue) => {
+      if (newvalue) getData();
+    },
+    {
+      immediate: true,
+    }
+  );
+
+  /*
   onMounted(() => {
     getData();
-  });
+  });*/
 
   return {
     data,
