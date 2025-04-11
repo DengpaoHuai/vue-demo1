@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_KEY = "5e0a68aefcdc49f0adc0358b1814da07";
+const API_KEY = "78c815728f824d78a8db9689df88abe7";
 
 const API_URL = `https://crudcrud.com/api/${API_KEY}/movies`;
 /*

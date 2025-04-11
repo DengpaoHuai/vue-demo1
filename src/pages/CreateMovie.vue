@@ -3,8 +3,9 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import type { Movie } from "../types/movie.type";
 import { useMovieStore } from "../store/useMovieStore";
+import CustomInputtext from "../components/inputs/CustomInputtext.vue";
+import CustomInputNumber from "../components/inputs/CustomInputNumber.vue";
 
-//composable. UNIQUEMENT à la racine d'un composant ou d'un autre composable.
 const router = useRouter();
 
 const movieStore = useMovieStore();
@@ -52,10 +53,25 @@ const onSubmit = async () => {
     <h1>Create Movie</h1>
 
     <form @submit.prevent="onSubmit">
-      <input type="text" name="title" v-model="movieForm.title" />
-      <input type="text" name="director" v-model="movieForm.director" />
-      <input type="number" name="notation" v-model="movieForm.notation" />
-      <button :disabled="isSubmitting">submit</button>
+      <CustomInputtext
+        label="Title"
+        name="title"
+        id="title"
+        v-model="movieForm.title"
+      />
+      <CustomInputtext
+        label="Director"
+        name="director"
+        id="director"
+        v-model="movieForm.director"
+      />
+      <CustomInputNumber
+        label="Notation"
+        name="notation"
+        id="notation"
+        v-model="movieForm.notation"
+      />
+      <Button type="submit" :disabled="isSubmitting">submit</Button>
     </form>
     <ul>
       <li v-for="movie in movieStore.movies" :key="movie._id">

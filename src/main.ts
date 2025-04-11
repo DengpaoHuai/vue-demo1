@@ -7,6 +7,9 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import PrimeVue from "primevue/config";
 import Lara from "@primeuix/themes/lara";
 import { definePreset } from "@primeuix/themes";
+import { Button } from "primevue";
+import DefaultLayout from "./components/layouts/DefaultLayout.vue";
+import LogoutLayout from "./components/layouts/LogoutLayout.vue";
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
@@ -40,5 +43,10 @@ app.use(PrimeVue, {
 
 app.use(router);
 app.use(pinia);
+
+app.component("Button", Button);
+
+app.component("DefaultLayout", DefaultLayout);
+app.component("LogoutLayout", LogoutLayout);
 
 app.mount("#app");

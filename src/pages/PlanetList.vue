@@ -1,7 +1,23 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, reactive, ref } from "vue";
 import type { PlanetResponse } from "../types/planet.type";
-import { Button } from "primevue";
+import StarsWarCard from "../components/StarsWarCard.vue";
+
+type Film = {
+  title: string;
+  episode_id: number;
+  opening_crawl: string;
+  director: string;
+  producer: string;
+  release_date: string;
+};
+
+type FilmResponse = {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Film[];
+};
 
 const planets = reactive<PlanetResponse>({
   count: 0,
@@ -10,6 +26,13 @@ const planets = reactive<PlanetResponse>({
   results: [],
 });
 const loading = ref(false);
+
+const films = reactive<FilmResponse>({
+  count: 0,
+  next: null,
+  previous: null,
+  results: [],
+});
 
 const fetchPlanets = (url: string) => {
   loading.value = true;
@@ -24,17 +47,23 @@ const fetchPlanets = (url: string) => {
     });
 };
 
-const listener = (e: Event) => console.log(e);
+const fetchFilms = (url: string) => {
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      films.results = data.results;
+    });
+};
 
 onMounted(() => {
   fetchPlanets("https://swapi.dev/api/planets");
-
-  addEventListener("scroll", listener);
+  fetchFilms("https://swapi.dev/api/films");
+  //addEventListener("scroll", listener);
 });
 
 onUnmounted(() => {
   console.log("je quitte la page");
-  removeEventListener("scroll", listener);
+  //removeEventListener("scroll", listener);
 });
 </script>
 
@@ -50,11 +79,30 @@ onUnmounted(() => {
     <div v-if="loading">
       <p>loading....</p>
     </div>
-    <div v-for="planet in planets.results">
-      <p>
-        {{ planet.name }}
+
+    <StarsWarCard v-for="planet in planets.results" :name="planet.name">
+      <p class="climate">
+        {{ planet.climate }}
       </p>
-    </div>
+      <p class="terrain">
+        {{ planet.terrain }}
+      </p>
+      <template #action-buttons>
+        <Button v-if="planet.films.length > 0">Voir les films</Button>
+        <Button v-if="planet.residents.length > 0">Voir les habitants</Button>
+      </template>
+    </StarsWarCard>
+
+    <h2>Films</h2>
+    <StarsWarCard v-for="film in films.results" :name="film.title">
+      <p class="title">
+        {{ film.title }}
+      </p>
+      <template #action-buttons>
+        <Button>Voir les habitants</Button>
+      </template>
+    </StarsWarCard>
+
     <Button
       :disabled="!planets.previous"
       @click="fetchPlanets(planets.previous!)"
@@ -74,5 +122,10 @@ onUnmounted(() => {
 
 h1 {
   color: $primary;
+}
+
+.climate,
+.terrain {
+  color: $secondary;
 }
 </style>

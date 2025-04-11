@@ -2,11 +2,22 @@ import { createRouter, createWebHistory } from "vue-router";
 import PlanetList from "../pages/PlanetList.vue";
 import Login from "../pages/Login.vue";
 import movieRouter from "./movie-router";
-
+import PlanetListAdvanced from "../pages/PlanetListAdvanced.vue";
 const routes = [
-  { path: "/", component: PlanetList },
-  { path: "/login", name: "Login", component: Login },
+  { path: "/", component: PlanetList, meta: { layout: "LogoutLayout" } },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+    meta: { layout: "DefaultLayout" },
+  },
   movieRouter,
+  {
+    path: "/planet-list-advanced",
+    name: "PlanetListAdvanced",
+    component: PlanetListAdvanced,
+    meta: { layout: "DefaultLayout" },
+  },
 ];
 
 export const router = createRouter({

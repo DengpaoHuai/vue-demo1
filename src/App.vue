@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+//:is="route.meta.layout ? route.meta.layout : 'DefaultLayout'"
 </script>
 
 <template>
-  <RouterView />
+  <component :is="route.meta.layout ?? 'DefaultLayout'">
+    <RouterView></RouterView>
+  </component>
 </template>
 
 <style scoped>
