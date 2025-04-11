@@ -32,8 +32,8 @@ const useFetch = <T>(url: Ref<string, string>) => {
 
   watch(
     url,
-    (newvalue, oldvalue) => {
-      if (newvalue) getData();
+    () => {
+      getData();
     },
     {
       immediate: true,
